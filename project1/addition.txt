@@ -1,0 +1,81 @@
+# N8 SWALLEY - 1/2/2022 - PROJECTS 0-1
+
+#####################################################################
+
+# QUESTION #1
+# addition.py
+
+
+def add(a, b):
+    "Return the sum of a and b"
+    print("Passed a=%s and b=%s, returning a+b=%s" % (a,b,a+b))
+    return a + b
+
+#####################################################################
+
+# QUESTION #2
+# buyLotsOfFruit.py
+
+from __future__ import print_function
+
+fruitPrices = {'apples': 2.00, 'oranges': 1.50, 'pears': 1.75,
+               'limes': 0.75, 'strawberries': 1.00}
+
+def buyLotsOfFruit(orderList):
+    """
+        orderList: List of (fruit, numPounds) tuples
+
+    Returns cost of order
+    """
+    totalCost = 0.0
+    for item in orderList:
+        if item[0] in fruitPrices: # item[0] gets the fruit name
+            totalCost += item[1] * fruitPrices[item[0]] # item[1] gets the numPounds
+        else:
+            print("ERROR: fruit not found in order list")
+            return None
+    return totalCost
+
+
+# Main Method
+if __name__ == '__main__':
+    "This code runs when you invoke the script from the command line"
+    orderList = [('apples', 2.0), ('pears', 3.0), ('limes', 4.0)]
+    print('Cost of', orderList, 'is', buyLotsOfFruit(orderList))
+
+
+#####################################################################
+
+# QUESTION #3
+# shopSmart.py
+
+from __future__ import print_function
+import shop
+
+
+def shopSmart(orderList, fruitShops):
+    """
+        orderList: List of (fruit, numPound) tuples
+        fruitShops: List of FruitShops
+    """
+
+    fs = fruitShops[0] # temp place holder to compare first fruitShop 
+
+    for item in fruitShops:
+        if item.getPriceOfOrder(orderList) <= fs.getPriceOfOrder(orderList):
+            fs = item # update which fruitShop we're comparing
+    return fs
+
+
+if __name__ == '__main__':
+    "This code runs when you invoke the script from the command line"
+    orders = [('apples', 1.0), ('oranges', 3.0)]
+    dir1 = {'apples': 2.0, 'oranges': 1.0}
+    shop1 = shop.FruitShop('shop1', dir1)
+    dir2 = {'apples': 1.0, 'oranges': 5.0}
+    shop2 = shop.FruitShop('shop2', dir2)
+    shops = [shop1, shop2]
+    print("For orders ", orders, ", the best shop is", shopSmart(orders, shops).getName())
+    orders = [('apples', 3.0)]
+    print("For orders: ", orders, ", the best shop is", shopSmart(orders, shops).getName())
+
